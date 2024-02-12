@@ -17,8 +17,7 @@ object JarPuzzle {
       var jar2: Jar = js(j2)
       val jar2Remain = jar2.cap - jar2.contain
 
-      if (jar2Remain == 0) ()
-      else {
+      if (jar2Remain != 0) {
         if (jar1.contain >= jar2Remain) {
           jar1 = jar1.add(-jar2Remain)
           jar2 = jar2.add(jar2Remain)
@@ -104,7 +103,8 @@ object JarPuzzle {
     val sol2 = findStatusBFS(initialJars, problem1)
     println(System.currentTimeMillis() - start2)
 
-    //sol2 경로를 복원하기 위해 따로 작업을.. 꼭 해야하나?
+    // sol2 경로를 복원하기 위해 따로 작업을 꼭 따로 해야하나?
+    // 일단 책의 예시처럼 경로를 조각조각 저장했다 나중에 복원함
     val sol2reverse = for ((k, v) <- sol2) yield (v, k)
     var rev: Option[Jars] = Some(problem1)
     breakable {

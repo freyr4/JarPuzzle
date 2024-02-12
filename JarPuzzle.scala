@@ -12,6 +12,7 @@ object JarPuzzle {
 
   case class Jars(js: List[Jar]) {
     def pour(j1: Int, j2: Int): Jars = {
+      //j1 번째 jar 에서 j2 번째 jar 에 물을 부으면
       var jar1: Jar = js(j1)
       var jar2: Jar = js(j2)
       val jar2Remain = jar2.cap - jar2.contain
@@ -30,7 +31,8 @@ object JarPuzzle {
       Jars(js.updated(j1, jar1).updated(j2, jar2))
     }
   }
-
+  
+  //깊이 우선 탐색
   def findStatus(first: Jars, target: Jars, rememberSet: mSet[Jars] = mSet(), path: ListBuffer[Jars] = ListBuffer()): ListBuffer[Jars] = {
     rememberSet.add(first)
     path.addOne(first)
@@ -52,6 +54,7 @@ object JarPuzzle {
     path
   }
 
+  // 너비 우선 탐색
   def findStatusBFS(first: Jars, target: Jars): mutable.Map[Jars, Jars] = {
     val rememberSet: mSet[Jars] = mSet()
     val path: mutable.Map[Jars, Jars] = mutable.Map.empty
@@ -101,6 +104,7 @@ object JarPuzzle {
     val sol2 = findStatusBFS(initialJars, problem1)
     println(System.currentTimeMillis() - start2)
 
+    //sol2 경로를 복원하기 위해 따로 작업을.. 꼭 해야하나?
     val sol2reverse = for ((k, v) <- sol2) yield (v, k)
     var rev: Option[Jars] = Some(problem1)
     breakable {
